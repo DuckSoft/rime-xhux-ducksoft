@@ -1,0 +1,135 @@
+engine:
+  filters:
+    - simplifier
+    - uniquifier
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - table_translator
+key_binder:
+  bindings:
+    - {accept: Return, send: Escape, when: composing}
+    - {accept: semicolon, send: 2, when: has_menu}
+    - {accept: bracketleft, send: Page_Up, when: paging}
+    - {accept: bracketright, send: Page_Down, when: has_menu}
+    - {accept: Return, send: "Shift+Return", when: composing}
+    - {accept: "Release+Escape", toggle: ascii_mode, when: always}
+menu:
+  page_size: 5
+punctuator:
+  full_shape:
+    " ": {commit: "　"}
+    "!": {commit: "！"}
+    "\"": {pair: ["“", "”"]}
+    "#": ["＃", "⌘"]
+    "$": ["￥", "$", "€", "£", "¥", "¢", "¤", "₩"]
+    "%": ["％", "°", "℃"]
+    "&": "＆"
+    "'": {pair: ["‘", "’"]}
+    "(": "（"
+    ")": "）"
+    "*": ["＊", "·", "・", "×", "※", "❂"]
+    "+": "＋"
+    ",": {commit: "，"}
+    "-": "－"
+    .: {commit: "。"}
+    "/": ["／", "÷"]
+    ":": {commit: "："}
+    ";": {commit: "；"}
+    "<": ["《", "〈", "«", "‹"]
+    "=": ["＝", "々", "〃"]
+    ">": ["》", "〉", "»", "›"]
+    "?": {commit: "？"}
+    "@": ["＠", "☯"]
+    "[": ["「", "【", "〔", "［", "〚", "〘"]
+    "\\": ["、", "＼"]
+    "]": ["」", "】", "〕", "］", "〛", "〙"]
+    "^": {commit: "……"}
+    _: "——"
+    "`": "｀"
+    "{": ["『", "〖", "｛"]
+    "|": ["·", "｜", "§", "¦"]
+    "}": ["』", "〗", "｝"]
+    "~": "～"
+  half_shape:
+    "!": {commit: "！"}
+    "\"": {pair: ["“", "”"]}
+    "#": ["#", "№"]
+    "$": ["￥", "$", "€", "£", "¥", "¢", "¤", "₩"]
+    "%": ["%", "％", "°", "℃", "‰", "‱", "℉", "℅", "℆", "℀", "℁", "⅍"]
+    "&": "&"
+    "'": {pair: ["‘", "’"]}
+    "(": "（"
+    ")": "）"
+    "*": ["*", "＊", "·", "・", "×", "※", "❂", "⁂", "☮", "☯", "☣"]
+    "+": "+"
+    ",": {commit: "，"}
+    "-": "-"
+    .: {commit: "。"}
+    "/": ["、", "､", "/", "／", "÷"]
+    ":": {commit: "："}
+    ";": {commit: "；"}
+    "<": ["《", "〈", "«", "‹", "˂", "˱"]
+    "=": ["=", "々", "〃"]
+    ">": ["》", "〉", "»", "›", "˃", "˲"]
+    "?": {commit: "？"}
+    "@": ["@", "©", "®", "℗"]
+    "[": ["「", "【", "〔", "［"]
+    "\\": ["、", "\\", "＼"]
+    "]": ["」", "】", "〕", "］"]
+    "^": {commit: "……"}
+    _: "——"
+    "`": ["`", "‵", "‶", "‷", "′", "″", "‴", "⁗"]
+    "{": ["『", "〖", "｛"]
+    "|": ["·", "・", "|", "｜", "§", "¦", "‖"]
+    "}": ["』", "〗", "｝"]
+    "~": ["~", "～", "˜", "˷", "ⸯ", "≈", "≋", "≃", "≅", "≇", "∽", "⋍", "≌", "﹏", "﹋", "﹌"]
+recognizer:
+  import_preset: default
+  patterns:
+    email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
+    punct: "^/([a-z]+|[0-9])$"
+    uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
+    url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
+schema:
+  name: "小鹤双形"
+  schema_id: xhux
+  version: 1
+speller:
+  alphabet: "zyxwvutsrqponmlkjihgfedcba;"
+  auto_clear: max_length
+  auto_select: true
+  auto_select_pattern: "^;.$|^\\w{4}$"
+  auto_select_unique_candidate: true
+  delimiter: " '"
+  initials: "abcdefghijklmnopqrstuvwxyz;"
+  max_code_length: 4
+switches:
+  - name: full_shape
+    states: ["半角", "全角"]
+  - name: ascii_punct
+    states: ["，。", "，．"]
+  - name: simplification
+    states: ["漢字", "汉字"]
+translator:
+  dictionary: xhux
+  disable_user_dict_for_patterns:
+    - "^z.*$"
+  enable_charset_filter: false
+  enable_completion: false
+  enable_sentence: false
+  enable_user_dict: false
